@@ -24,7 +24,7 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v4
               with:
-                  fetch-depth: 100 # required to compute next version from tags/history
+                  fetch-depth: 0 # required to compute next version from tags/history
             - name: Bump version and push tag
               id: version
               uses: paulhatch/semantic-version@v5.4.0
