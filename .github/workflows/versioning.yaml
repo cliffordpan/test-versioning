@@ -1,0 +1,39 @@
+name: CI/CD (main, staging, development)
+
+on:
+    pull_request:
+        types:
+            - closed
+        branches:
+            - main
+            - staging
+            - development
+
+# permissions:
+#     contents: write # needed for tagging/releases
+#     actions: read
+#     checks: write
+
+jobs:
+    build-and-tagging:
+        if: github.event.pull_request.merged == true
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 100 # required to compute next version from tags/history
+            - name: Bump version and push tag
+              id: version
+              uses: paulhatch/semantic-version@v5.4.0
+              with:
+                  bump_each_commit: true
+                  bump_each_commit_patch_pattern: "/fix:/"
+            - name: Create and push tag
+              run: |
+                  git tag ${{ steps.version.outputs.version_tag }}
+                  git push origin ${{ steps.version.outputs.version_tag }}
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
