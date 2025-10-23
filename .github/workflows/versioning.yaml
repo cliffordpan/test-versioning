@@ -33,9 +33,21 @@ jobs:
                   bump_each_commit: true
                   bump_each_commit_patch_pattern: "/fix:/"
                   search_commit_body: true
-            - name: Create and push tag
+                  debug: true
+            - name: debugs
               run: |
-                  git tag ${{ steps.version.outputs.version_tag }}
-                  git push origin ${{ steps.version.outputs.version_tag }}
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  echo ${{ steps.version.outputs.version_tag }}
+                  echo ${{ steps.version.outputs.version_type  }}
+                  echo ${{ steps.version.outputs.version  }}
+                  echo ${{ steps.version.outputs.changed  }}
+                  echo ${{ steps.version.outputs.is_tagged }}
+                  echo ${{ steps.version.outputs.current_commit  }}
+                  echo ${{ steps.version.outputs.previous_commit  }}
+                  echo ${{ steps.version.outputs.previous_version }}
+                  echo ${{ steps.version.outputs.debug_output  }}
+            # - name: Create and push tag
+            #   run: |
+            #       git tag ${{ steps.version.outputs.version_tag }}
+            #       git push origin ${{ steps.version.outputs.version_tag }}
+            #   env:
+            #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
