@@ -49,9 +49,11 @@ jobs:
                   echo ${{ steps.version.outputs.previous_version }}
                   echo ${{ steps.version.outputs.debug_output  }}
             - name: Create and push tag
-              if: ${{ steps.version.outputs.version_type != 'none' }}
+              if: ${{ ! steps.version.outputs.is_tagged }}
               run: |
-                  git tag ${{ steps.version.outputs.version_tag }}
+                  git config user.name "github-actions[bot]"
+                  git config user.email "github-actions[bot]@users.noreply.github.com"
+                  git tag  ${{ steps.version.outputs.version_tag }}
                   git push origin ${{ steps.version.outputs.version_tag }}
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
