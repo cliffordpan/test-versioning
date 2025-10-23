@@ -32,6 +32,7 @@ jobs:
                   tag_prefix: ""
                   bump_each_commit: true
                   bump_each_commit_patch_pattern: "/fix:/"
+                  search_commit_body: true
             - name: Create and push tag
               run: |
                   git tag ${{ steps.version.outputs.version_tag }}
